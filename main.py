@@ -104,9 +104,7 @@ class BEKTrajectory:
         print(f"\nЛоги сохранены в файл: {filename}")
 
 def reward_function_scaled(T_0, T_max):
-    norm_T0 = T_0 / T_max
-    norm_Tmax = 1
-    return math.exp(norm_T0) - math.exp(norm_Tmax)
+    return math.exp(T_0 - T_max)
 
 class BEKTrajectoryEnv:
     def __init__(self, start_pos=(50000, 50000), speed=7, acceleration=2.5, target_pos=(100000, 100000), max_time=18000):
@@ -153,8 +151,8 @@ class SimpleRLAgent:
         self.q_table = {}
         self.actions = [
             ('straight', 600),  # 10 минут прямого движения
-            ('turn', 90, 'right'),
-            ('turn', 90, 'left')
+            ('turn', random.randint(0, 180), 'right'),
+            ('turn',  random.randint(0, 180), 'left')
         ]
         self.alpha = 0.1  # скорость обучения
         self.gamma = 0.9  # коэффициент дисконтирования
